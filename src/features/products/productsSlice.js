@@ -41,5 +41,6 @@ export const getCount = () => async (dispatch) => {
 
 export const selectNumberOfProducts = state => state.products.products.length;
 export const getProducts = state => state.products.products;
+export const selectCount = state => state.products.count;
 
 export default productsSlice.reducer;

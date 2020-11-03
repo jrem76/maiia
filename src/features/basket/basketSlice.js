@@ -21,6 +21,7 @@ export const basketSlice = createSlice({
 
 export const { addProduct, decrement } = basketSlice.actions;
 
-export const selectNumberOfProducts = state => state.basket.products.length;
+export const selectNumberOfProducts = state => state.basket.products.length
+export const productsInBasket = state => state.basket.products
 
 export default basketSlice.reducer;
