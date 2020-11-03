@@ -1,0 +1,8 @@
+.products__container {
+    width: 300px;
+}
+
+.productItem {
+  width: 100px;
+  height: 100px;
+}
