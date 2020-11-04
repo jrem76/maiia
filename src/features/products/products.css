@@ -1,7 +1,9 @@
 .products__container {
-  width: 300px;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .productItem {
@@ -9,12 +11,26 @@
   height: 100px;
 }
 
+.products__pagination {
+  max-width: 100%;
+}
+
+.MuiToolbar-gutters {
+  padding-left: 0 !important;
+}
+
 @media screen and (min-width: 720px)
 {
   .products__container {
     width: 100%;
+    max-width: calc( 345px * 4);
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
+    margin: 0 auto;
+    padding-left: 25px;
+  }
+
+  .MuiToolbar-gutters {
+    padding-left: 16px;
   }
 }

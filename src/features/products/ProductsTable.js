@@ -9,6 +9,7 @@ import {
   getProducts,
   getCount,
   selectCount,
+  updateProducts,
 } from './productsSlice'
 
 import "./products.css"
@@ -20,7 +21,7 @@ const ProductsTable = () => {
   const products = useSelector(getProducts)
   const count = useSelector(selectCount)
 
-  const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [rowsPerPage, setRowsPerPage] = useState(15)
 
   const getDatas = useCallback(async () => {
     await fetch(`https://jsonplaceholder.typicode.com/photos?_page=${page}&_limit=${rowsPerPage}`)
@@ -29,7 +30,11 @@ const ProductsTable = () => {
       })
       .then(
         (result) => {
-          dispatch(addProducts({ products: result }))
+          if (page === 1) {
+            dispatch(updateProducts({ products: result }))
+          } else {
+            dispatch(addProducts({ products: result }))
+          }
         },
         // Remarque : il faut gérer les erreurs ici plutôt que dans
         // un bloc catch() afin que nous n’avalions pas les exceptions
@@ -44,8 +49,7 @@ const ProductsTable = () => {
 
   useEffect(() => getDatas(), [getDatas, page, rowsPerPage])
 
-  return (<div>
-    <h1>Products Table</h1>
+  return (<>
     <div className="products__container">
       {
         products.map(
@@ -55,19 +59,23 @@ const ProductsTable = () => {
         )
       }
     </div>
-    <TablePagination
-      component="div"
-      count={count}
-      page={page}
-      labelRowsPerPage="Products per page: "
-      onChangePage={(event, newPage) => setPage(newPage)}
-      rowsPerPage={rowsPerPage}
-      onChangeRowsPerPage={(event) => {
-        setRowsPerPage(parseInt(event.target.value, 10))
-        setPage(1)
-      }}
-    />
-  </div>)
+    <div className="products__pagination">
+      <TablePagination
+        component="div"
+        count={count}
+        page={page}
+        size="small"
+        rowsPerPageOptions={[15, 30, 50, 100]}
+        labelRowsPerPage=""
+        onChangePage={(event, newPage) => setPage(newPage)}
+        rowsPerPage={rowsPerPage}
+        onChangeRowsPerPage={(event) => {
+          setRowsPerPage(parseInt(event.target.value, 10))
+          setPage(1)
+        }}
+      />
+    </div>
+  </>)
 }
 
 export { ProductsTable }

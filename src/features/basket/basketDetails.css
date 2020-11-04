@@ -1,0 +1,16 @@
+.basketDetails__container {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 720px)
+{
+  .basketDetails__container {
+    width: 100%;
+    max-width: calc( 300px * 3);
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0 auto;
+  }
+}

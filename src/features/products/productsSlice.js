@@ -13,8 +13,10 @@ export const productsSlice = createSlice({
         ...action.payload.products,
       ]
     },
-    removeProduct: (state, action) => {
-      state.value -= 1;
+    updateProducts: (state, action) => {
+      state.products = [
+        ...action.payload.products,
+      ]
     },
     setCount: (state, action) => {
       state.count = action.payload.count
@@ -22,10 +24,10 @@ export const productsSlice = createSlice({
   },
 });
 
-export const { addProducts, removeProduct, setCount } = productsSlice.actions;
+export const { addProducts, updateProducts, setCount } = productsSlice.actions;
 
-export const getCount = () => async (dispatch) => {
-  await fetch(`https://jsonplaceholder.typicode.com/photos`)
+export const getCount = filterTitle => async (dispatch) => {
+  await fetch(`https://jsonplaceholder.typicode.com/photos?q=${filterTitle}`)
     .then(res => {
       return res.json()
     })

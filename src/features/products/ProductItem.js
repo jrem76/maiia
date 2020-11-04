@@ -2,16 +2,17 @@ import React from 'react'
 import { useDispatch } from "react-redux"
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
 import CardMedia from '@material-ui/core/CardMedia'
 import CardActions from '@material-ui/core/CardActions'
-import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
-import { red } from '@material-ui/core/colors'
-import AddBoxIcon from '@material-ui/icons/AddBox'
+import Typography from '@material-ui/core/Typography'
+import CardContent from '@material-ui/core/CardContent'
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
 
 import {
   addProduct,
+  removeProduct
 } from "../basket/basketSlice"
 
 const useStyles = makeStyles((theme) => ({
@@ -21,54 +22,54 @@ const useStyles = makeStyles((theme) => ({
     ['@media (min-width:780px)']: { // eslint-disable-line no-useless-computed-key
       marginRight: 25,
       marginBottom: 30,
-      flex: "1 0 320px"
+      flex: "0 0 320px"
     },
   },
   media: {
     paddingTop: '56.25%', // 16:9
   },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
+  title: {
+    minHeight: 72,
+  }
+
 }))
 
-export const ProductItem = ({ id, title, thumbnailUrl, product }) => {
+export const ProductItem = ({ id, title, thumbnailUrl, product, isBasket}) => {
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  const handleAddBasket = product => {
-    console.log(id)
+  const handleAddBasket = () => {
     dispatch(addProduct({ product }))
+  }
+
+  const handleRemoveBasket = () => {
+    dispatch(removeProduct({ product, id }))
   }
 
   return (
     <Card className={classes.root}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="product" className={classes.avatar}>
-           { id }
-          </Avatar>
-        }
-        title={title.substring(0, 50)}
-      />
       <CardMedia
         className={classes.media}
         image={thumbnailUrl}
       />
+      <CardContent className={classes.title}>
+        <Typography variant="body2" color="textSecondary" component="p">
+          { title }
+        </Typography>
+      </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to basket" onClick={() => handleAddBasket(product)}>
-          <AddBoxIcon/>
-        </IconButton>
+        { !isBasket && (
+          <IconButton aria-label="add to basket" onClick={handleAddBasket}>
+            <AddShoppingCartIcon/>
+          </IconButton>
+          )
+        }
+        { isBasket && (
+          <IconButton aria-label="remove from basket" onClick={handleRemoveBasket}>
+            <RemoveShoppingCartIcon/>
+          </IconButton>
+          )
+        }
       </CardActions>
     </Card>
   );
