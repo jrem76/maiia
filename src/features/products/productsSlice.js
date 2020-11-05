@@ -27,7 +27,7 @@ export const productsSlice = createSlice({
 export const { addProducts, updateProducts, setCount } = productsSlice.actions;
 
 export const getCount = filterTitle => async (dispatch) => {
-  await fetch(`https://jsonplaceholder.typicode.com/photos?q=${filterTitle}`)
+  await fetch(`https://jsonplaceholder.typicode.com/photos?${filterTitle ? `q=${filterTitle}` : ""}`)
     .then(res => {
       return res.json()
     })
